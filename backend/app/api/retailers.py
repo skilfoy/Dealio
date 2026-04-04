@@ -1,0 +1,50 @@
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from app.core.database import get_db
+from app.models.retailer import Retailer
+from app.api.schemas import RetailerResponse, RetailerUpdate
+
+router = APIRouter(tags=["retailers"])
+
+
+@router.get("/retailers", response_model=list[RetailerResponse])
+async def list_retailers(db: AsyncSession = Depends(get_db)):
+    result = await db.execute(select(Retailer).order_by(Retailer.tier, Retailer.name))
+    return [RetailerResponse.model_validate(r) for r in result.scalars().all()]
+
+
+@router.get("/retailers/{slug}", response_model=RetailerResponse)
+async def get_retailer(slug: str, db: AsyncSession = Depends(get_db)):
+    result = await db.execute(select(Retailer).where(Retailer.slug == slug))
+    retailer = result.scalars().first()
+    if not retailer:
+        raise HTTPException(status_code=404, detail="Retailer not found")
+    return RetailerResponse.model_validate(retailer)
+
+
+@router.patch("/retailers/{slug}", response_model=RetailerResponse)
+async def update_retailer(slug: str, update: RetailerUpdate, db: AsyncSession = Depends(get_db)):
+    result = await db.execute(select(Retailer).where(Retailer.slug == slug))
+    retailer = result.scalars().first()
+    if not retailer:
+        raise HTTPException(status_code=404, detail="Retailer not found")
+
+    for field, value in update.model_dump(exclude_unset=True).items():
+        setattr(retailer, field, value)
+    await db.commit()
+    await db.refresh(retailer)
+    return RetailerResponse.model_validate(retailer)
+
+
+@router.post("/retailers/{slug}/scrape")
+async def trigger_scrape(slug: str, db: AsyncSession = Depends(get_db)):
+    result = await db.execute(select(Retailer).where(Retailer.slug == slug))
+    retailer = result.scalars().first()
+    if not retailer:
+        raise HTTPException(status_code=404, detail="Retailer not found")
+
+    from app.tasks.scrape_tasks import scrape_retailer
+    scrape_retailer.delay(slug)
+    return {"status": "queued", "retailer": slug}
