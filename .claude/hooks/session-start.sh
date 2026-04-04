@@ -40,7 +40,44 @@ done
 
 echo "✅ All services started successfully!"
 echo ""
-echo "📝 DealRadar is running on:"
-echo "   Frontend: http://localhost:5173"
-echo "   API: http://localhost:8000"
+
+# Create public tunnels for cloud access
+if command -v bdy &> /dev/null; then
+  echo "🌐 Creating public tunnels..."
+
+  # Create tunnels in background and capture output files
+  bdy tunnel http localhost:5173 --auth public > /tmp/frontend_tunnel.txt 2>&1 &
+  FRONTEND_PID=$!
+
+  bdy tunnel http localhost:8000 --auth public > /tmp/api_tunnel.txt 2>&1 &
+  API_PID=$!
+
+  # Wait a moment for tunnels to initialize
+  sleep 3
+
+  # Extract URLs from output
+  FRONTEND_URL=$(grep -oP 'https://[^\s]+' /tmp/frontend_tunnel.txt 2>/dev/null | head -1)
+  API_URL=$(grep -oP 'https://[^\s]+' /tmp/api_tunnel.txt 2>/dev/null | head -1)
+
+  if [ -n "$FRONTEND_URL" ] && [ -n "$API_URL" ]; then
+    echo "✅ Public tunnels created!"
+    echo ""
+    echo "🎉 DealRadar is accessible from your browser:"
+    echo "   Frontend: $FRONTEND_URL"
+    echo "   API:      $API_URL"
+    echo "   Docs:     $API_URL/docs"
+    echo ""
+  else
+    echo "⚠️  Buddy CLI available but tunnel creation had issues"
+    echo "   Frontend (localhost): http://localhost:5173"
+    echo "   API (localhost):      http://localhost:8000"
+  fi
+else
+  echo "📝 DealRadar is running locally:"
+  echo "   Frontend: http://localhost:5173"
+  echo "   API:      http://localhost:8000"
+  echo ""
+  echo "💡 For cloud access, install Buddy CLI:"
+  echo "   https://buddy.works"
+fi
 echo ""
