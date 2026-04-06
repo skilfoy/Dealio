@@ -35,7 +35,30 @@ export function useToggleRetailer() {
 }
 
 export function useTriggerScrape() {
+  const qc = useQueryClient()
   return useMutation({
     mutationFn: (slug: string) => apiPost(`/retailers/${slug}/scrape`, {}),
+    onSuccess: () => {
+      setTimeout(() => qc.invalidateQueries({ queryKey: ['scrape-jobs'] }), 2000)
+    },
+  })
+}
+
+export function useScrapeAll() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: () => apiPost<{ count: number; retailers: string[] }>('/retailers/scrape-all', {}),
+    onSuccess: () => {
+      setTimeout(() => qc.invalidateQueries({ queryKey: ['scrape-jobs'] }), 2000)
+    },
+  })
+}
+
+export function useUpdateRetailer() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: ({ slug, ...patch }: { slug: string; rate_limit_ms?: number; scrape_interval_minutes?: number }) =>
+      apiPatch(`/retailers/${slug}`, patch),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['retailers'] }),
   })
 }

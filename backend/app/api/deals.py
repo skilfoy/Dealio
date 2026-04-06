@@ -111,7 +111,7 @@ async def list_deals(
 
 @router.get("/deals/stats", response_model=DealStatsResponse)
 async def deal_stats(db: AsyncSession = Depends(get_db)):
-    today = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
+    today = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
 
     total = (await db.execute(select(func.count()).where(Deal.is_active == True))).scalar() or 0
     avg_disc = (await db.execute(select(func.avg(Deal.discount_percent)).where(Deal.is_active == True))).scalar() or 0

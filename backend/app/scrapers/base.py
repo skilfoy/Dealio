@@ -6,7 +6,7 @@ Flow: scrape → upsert products → detect price changes on EVERY update →
 
 import logging
 from abc import ABC, abstractmethod
-from datetime import datetime, timezone
+from datetime import datetime
 from decimal import Decimal
 from typing import Optional
 
@@ -77,7 +77,7 @@ class BaseScraper(ABC):
             return ScrapeResult(errors=[f"Retailer {self.retailer_slug} not found"])
 
         # Create scrape job
-        self._scrape_job = ScrapeJob(retailer_id=retailer.id, status="running", started_at=datetime.now(timezone.utc))
+        self._scrape_job = ScrapeJob(retailer_id=retailer.id, status="running", started_at=datetime.utcnow())
         self.db.add(self._scrape_job)
         await self.db.commit()
 
@@ -98,20 +98,20 @@ class BaseScraper(ABC):
                     result.errors.append(str(e))
 
             # Update retailer stats
-            retailer.last_scraped_at = datetime.now(timezone.utc)
+            retailer.last_scraped_at = datetime.utcnow()
             retailer.total_deals_found += result.deals_found
 
             self._scrape_job.status = "completed"
             self._scrape_job.items_found = result.items_found
             self._scrape_job.deals_found = result.deals_found
-            self._scrape_job.completed_at = datetime.now(timezone.utc)
+            self._scrape_job.completed_at = datetime.utcnow()
             await self.db.commit()
 
         except Exception as e:
             self.logger.error("Scraper %s failed: %s", self.retailer_slug, e)
             self._scrape_job.status = "failed"
             self._scrape_job.error_message = str(e)[:1000]
-            self._scrape_job.completed_at = datetime.now(timezone.utc)
+            self._scrape_job.completed_at = datetime.utcnow()
             await self.db.commit()
             result.errors.append(str(e))
 
@@ -137,7 +137,7 @@ class BaseScraper(ABC):
             product.coupon_code = scraped.coupon_code
             product.coupon_discount = scraped.coupon_discount
             product.current_price = scraped.current_price
-            product.last_checked_at = datetime.now(timezone.utc)
+            product.last_checked_at = datetime.utcnow()
             # Calculate true final price
             if scraped.coupon_discount and scraped.coupon_discount > 0:
                 product.true_final_price = scraped.current_price - scraped.coupon_discount
@@ -163,7 +163,7 @@ class BaseScraper(ABC):
                 coupon_discount=scraped.coupon_discount,
                 true_final_price=true_final,
                 in_stock=scraped.in_stock,
-                last_checked_at=datetime.now(timezone.utc),
+                last_checked_at=datetime.utcnow(),
             )
             self.db.add(product)
             await self.db.flush()
@@ -241,7 +241,7 @@ class BaseScraper(ABC):
             is_clearance=scraped.is_clearance,
         )
 
-        now = datetime.now(timezone.utc)
+        now = datetime.utcnow()
         deal_score = calculate_deal_score(
             discount_percent=discount_pct,
             price_history_count=history_count,

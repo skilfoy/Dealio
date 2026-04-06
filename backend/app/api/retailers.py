@@ -38,6 +38,25 @@ async def update_retailer(slug: str, update: RetailerUpdate, db: AsyncSession = 
     return RetailerResponse.model_validate(retailer)
 
 
+@router.post("/retailers/scrape-all")
+async def scrape_all_available(db: AsyncSession = Depends(get_db)):
+    """Queue scrape jobs for all enabled retailers that have a registered scraper and need no API key."""
+    from app.scrapers.registry import get_all_scrapers
+    from app.tasks.scrape_tasks import scrape_retailer
+
+    registered = get_all_scrapers()
+    result = await db.execute(
+        select(Retailer).where(Retailer.is_enabled == True, Retailer.requires_api_key == False)
+    )
+    retailers = result.scalars().all()
+
+    queued = [r.slug for r in retailers if r.slug in registered]
+    for slug in queued:
+        scrape_retailer.delay(slug)
+
+    return {"status": "queued", "count": len(queued), "retailers": queued}
+
+
 @router.post("/retailers/{slug}/scrape")
 async def trigger_scrape(slug: str, db: AsyncSession = Depends(get_db)):
     result = await db.execute(select(Retailer).where(Retailer.slug == slug))

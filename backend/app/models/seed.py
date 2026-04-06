@@ -36,12 +36,76 @@ RETAILERS = [
     {"name": "PetSmart", "slug": "petsmart", "base_url": "https://www.petsmart.com", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 120, "requires_api_key": False},
     {"name": "Guitar Center", "slug": "guitar-center", "base_url": "https://www.guitarcenter.com", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 120, "requires_api_key": False},
     {"name": "Sweetwater", "slug": "sweetwater", "base_url": "https://www.sweetwater.com", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 120, "requires_api_key": False},
-    # Tier 3 — Clearance/outlet/delivery apps
+    # --- New Tier 1 — RSS feeds & public APIs ---
+    {"name": "Brad's Deals", "slug": "brads-deals", "base_url": "https://www.bradsdeals.com", "scraper_type": "rss", "tier": 1, "scrape_interval_minutes": 10, "requires_api_key": False},
+    {"name": "Ben's Bargains", "slug": "bens-bargains", "base_url": "https://bensbargains.com", "scraper_type": "rss", "tier": 1, "scrape_interval_minutes": 10, "requires_api_key": False},
+    {"name": "TechBargains", "slug": "techbargains", "base_url": "https://www.techbargains.com", "scraper_type": "rss", "tier": 1, "scrape_interval_minutes": 15, "requires_api_key": False},
+    {"name": "GottaDeal", "slug": "gottadeal", "base_url": "https://www.gottadeal.com", "scraper_type": "rss", "tier": 1, "scrape_interval_minutes": 15, "requires_api_key": False},
+    {"name": "CheapShark", "slug": "cheapshark", "base_url": "https://www.cheapshark.com", "scraper_type": "api", "tier": 1, "scrape_interval_minutes": 20, "requires_api_key": False},
+    {"name": "IsThereAnyDeal", "slug": "isthereanydeal", "base_url": "https://isthereanydeal.com", "scraper_type": "api", "tier": 1, "scrape_interval_minutes": 20, "requires_api_key": False},
+    {"name": "eBay Deals", "slug": "ebay-deals", "base_url": "https://www.ebay.com/deals", "scraper_type": "api", "tier": 1, "scrape_interval_minutes": 30, "requires_api_key": False},
+    {"name": "Rakuten", "slug": "rakuten", "base_url": "https://www.rakuten.com", "scraper_type": "rss", "tier": 1, "scrape_interval_minutes": 30, "requires_api_key": False},
+    {"name": "DealCatcher", "slug": "dealcatcher", "base_url": "https://www.dealcatcher.com", "scraper_type": "rss", "tier": 1, "scrape_interval_minutes": 15, "requires_api_key": False},
+    {"name": "Groupon", "slug": "groupon", "base_url": "https://www.groupon.com", "scraper_type": "api", "tier": 1, "scrape_interval_minutes": 30, "requires_api_key": False},
+    # --- New Tier 2 — Major retailers ---
+    {"name": "Lowe's", "slug": "lowes", "base_url": "https://www.lowes.com", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 120, "requires_api_key": False},
+    {"name": "Kohl's", "slug": "kohls", "base_url": "https://www.kohls.com", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 120, "requires_api_key": False},
+    {"name": "Macy's", "slug": "macys", "base_url": "https://www.macys.com", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 120, "requires_api_key": False},
+    {"name": "Nordstrom", "slug": "nordstrom", "base_url": "https://www.nordstrom.com", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 120, "requires_api_key": False},
+    {"name": "JCPenney", "slug": "jcpenney", "base_url": "https://www.jcpenney.com", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 120, "requires_api_key": False},
+    {"name": "Dick's Sporting Goods", "slug": "dicks", "base_url": "https://www.dickssportinggoods.com", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 120, "requires_api_key": False},
+    {"name": "REI", "slug": "rei", "base_url": "https://www.rei.com", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 120, "requires_api_key": False},
+    {"name": "Microcenter", "slug": "microcenter", "base_url": "https://www.microcenter.com", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 60, "requires_api_key": False},
+    {"name": "Crutchfield", "slug": "crutchfield", "base_url": "https://www.crutchfield.com", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 120, "requires_api_key": False},
+    {"name": "Monoprice", "slug": "monoprice", "base_url": "https://www.monoprice.com", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 120, "requires_api_key": False},
+    {"name": "Samsung Direct", "slug": "samsung", "base_url": "https://www.samsung.com/us", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 180, "requires_api_key": False},
+    {"name": "Sony Direct", "slug": "sony", "base_url": "https://www.sony.com/en/", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 180, "requires_api_key": False},
+    {"name": "ASUS Direct", "slug": "asus", "base_url": "https://www.asus.com/us/", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 180, "requires_api_key": False},
+    {"name": "LG Direct", "slug": "lg", "base_url": "https://www.lg.com/us", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 180, "requires_api_key": False},
+    {"name": "Abt Electronics", "slug": "abt", "base_url": "https://www.abt.com", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 120, "requires_api_key": False},
+    {"name": "Nike", "slug": "nike", "base_url": "https://www.nike.com", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 120, "requires_api_key": False},
+    {"name": "Adidas", "slug": "adidas", "base_url": "https://www.adidas.com/us", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 120, "requires_api_key": False},
+    {"name": "Under Armour", "slug": "under-armour", "base_url": "https://www.underarmour.com/en-us", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 120, "requires_api_key": False},
+    {"name": "IKEA", "slug": "ikea", "base_url": "https://www.ikea.com/us/en", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 180, "requires_api_key": False},
+    {"name": "West Elm", "slug": "west-elm", "base_url": "https://www.westelm.com", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 180, "requires_api_key": False},
+    {"name": "Williams-Sonoma", "slug": "williams-sonoma", "base_url": "https://www.williams-sonoma.com", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 180, "requires_api_key": False},
+    {"name": "Pottery Barn", "slug": "pottery-barn", "base_url": "https://www.potterybarn.com", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 180, "requires_api_key": False},
+    {"name": "Crate & Barrel", "slug": "crate-barrel", "base_url": "https://www.crateandbarrel.com", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 180, "requires_api_key": False},
+    {"name": "Bass Pro Shops", "slug": "bass-pro", "base_url": "https://www.basspro.com", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 120, "requires_api_key": False},
+    {"name": "Cabela's", "slug": "cabelas", "base_url": "https://www.cabelas.com", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 120, "requires_api_key": False},
+    {"name": "Academy Sports", "slug": "academy", "base_url": "https://www.academy.com", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 120, "requires_api_key": False},
+    {"name": "Backcountry", "slug": "backcountry", "base_url": "https://www.backcountry.com", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 120, "requires_api_key": False},
+    {"name": "Moosejaw", "slug": "moosejaw", "base_url": "https://www.moosejaw.com", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 120, "requires_api_key": False},
+    {"name": "Burlington", "slug": "burlington", "base_url": "https://www.burlington.com", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 120, "requires_api_key": False},
+    {"name": "PC Richard & Son", "slug": "pc-richard", "base_url": "https://www.pcrichard.com", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 120, "requires_api_key": False},
+    {"name": "Bed Bath & Beyond", "slug": "bed-bath-beyond", "base_url": "https://www.bedbathandbeyond.com", "scraper_type": "playwright", "tier": 2, "scrape_interval_minutes": 180, "requires_api_key": False},
+    # --- Tier 3 — Clearance / outlet / specialty ---
     {"name": "Apple Refurbished", "slug": "apple-refurb", "base_url": "https://www.apple.com/shop/refurbished", "scraper_type": "playwright", "tier": 3, "scrape_interval_minutes": 240, "requires_api_key": False},
     {"name": "Best Buy Outlet", "slug": "bestbuy-outlet", "base_url": "https://www.bestbuy.com/site/electronics/outlet-refurbished-clearance/pcmcat142300050026.c", "scraper_type": "playwright", "tier": 3, "scrape_interval_minutes": 240, "requires_api_key": False},
     {"name": "Dell Outlet", "slug": "dell-outlet", "base_url": "https://www.dell.com/en-us/shop/dell-outlet/ar/4010", "scraper_type": "playwright", "tier": 3, "scrape_interval_minutes": 240, "requires_api_key": False},
     {"name": "Amazon Warehouse", "slug": "amazon-warehouse", "base_url": "https://www.amazon.com/warehouse-deals/b?ie=UTF8&node=10158976011", "scraper_type": "playwright", "tier": 3, "scrape_interval_minutes": 240, "requires_api_key": False},
     {"name": "DoorDash", "slug": "doordash", "base_url": "https://www.doordash.com", "scraper_type": "playwright", "tier": 3, "scrape_interval_minutes": 30, "requires_api_key": False},
+    {"name": "Nordstrom Rack", "slug": "nordstrom-rack", "base_url": "https://www.nordstromrack.com", "scraper_type": "playwright", "tier": 3, "scrape_interval_minutes": 120, "requires_api_key": False},
+    {"name": "Saks Off 5th", "slug": "saks-off-5th", "base_url": "https://www.saksoff5th.com", "scraper_type": "playwright", "tier": 3, "scrape_interval_minutes": 180, "requires_api_key": False},
+    {"name": "6pm", "slug": "6pm", "base_url": "https://www.6pm.com", "scraper_type": "playwright", "tier": 3, "scrape_interval_minutes": 120, "requires_api_key": False},
+    {"name": "DSW", "slug": "dsw", "base_url": "https://www.dsw.com", "scraper_type": "playwright", "tier": 3, "scrape_interval_minutes": 120, "requires_api_key": False},
+    {"name": "Nike Outlet", "slug": "nike-outlet", "base_url": "https://www.nike.com/w/sale", "scraper_type": "playwright", "tier": 3, "scrape_interval_minutes": 120, "requires_api_key": False},
+    {"name": "Adidas Outlet", "slug": "adidas-outlet", "base_url": "https://www.adidas.com/us/sale", "scraper_type": "playwright", "tier": 3, "scrape_interval_minutes": 120, "requires_api_key": False},
+    {"name": "Under Armour Outlet", "slug": "ua-outlet", "base_url": "https://www.underarmour.com/en-us/c/sale/", "scraper_type": "playwright", "tier": 3, "scrape_interval_minutes": 120, "requires_api_key": False},
+    {"name": "Gap Factory", "slug": "gap-factory", "base_url": "https://www.gapfactory.com", "scraper_type": "playwright", "tier": 3, "scrape_interval_minutes": 180, "requires_api_key": False},
+    {"name": "J.Crew Factory", "slug": "jcrew-factory", "base_url": "https://factory.jcrew.com", "scraper_type": "playwright", "tier": 3, "scrape_interval_minutes": 180, "requires_api_key": False},
+    {"name": "Banana Republic Factory", "slug": "br-factory", "base_url": "https://bananarepublicfactory.gapfactory.com", "scraper_type": "playwright", "tier": 3, "scrape_interval_minutes": 180, "requires_api_key": False},
+    {"name": "Eddie Bauer Outlet", "slug": "eddie-bauer-outlet", "base_url": "https://www.eddiebauer.com/c/sale", "scraper_type": "playwright", "tier": 3, "scrape_interval_minutes": 180, "requires_api_key": False},
+    {"name": "L.L. Bean Outlet", "slug": "llbean-outlet", "base_url": "https://www.llbean.com/llb/shop/516629", "scraper_type": "playwright", "tier": 3, "scrape_interval_minutes": 240, "requires_api_key": False},
+    {"name": "Lands' End", "slug": "lands-end", "base_url": "https://www.landsend.com", "scraper_type": "playwright", "tier": 3, "scrape_interval_minutes": 180, "requires_api_key": False},
+    {"name": "Puma Outlet", "slug": "puma-outlet", "base_url": "https://us.puma.com/en/us/sale", "scraper_type": "playwright", "tier": 3, "scrape_interval_minutes": 180, "requires_api_key": False},
+    {"name": "REI Outlet", "slug": "rei-outlet", "base_url": "https://www.rei.com/c/outlet", "scraper_type": "playwright", "tier": 3, "scrape_interval_minutes": 120, "requires_api_key": False},
+    {"name": "Lenovo Outlet", "slug": "lenovo-outlet", "base_url": "https://www.lenovo.com/us/en/outletsales/", "scraper_type": "playwright", "tier": 3, "scrape_interval_minutes": 240, "requires_api_key": False},
+    {"name": "HP Outlet", "slug": "hp-outlet", "base_url": "https://www.hp.com/us-en/shop/cv/renewed", "scraper_type": "playwright", "tier": 3, "scrape_interval_minutes": 240, "requires_api_key": False},
+    {"name": "Samsung Outlet", "slug": "samsung-outlet", "base_url": "https://www.samsung.com/us/smartphones/all-smartphones/?grade=Certified+Re-Newed", "scraper_type": "playwright", "tier": 3, "scrape_interval_minutes": 240, "requires_api_key": False},
+    {"name": "AliExpress Deals", "slug": "aliexpress", "base_url": "https://www.aliexpress.com/deals.html", "scraper_type": "playwright", "tier": 3, "scrape_interval_minutes": 240, "requires_api_key": False},
+    {"name": "Temu", "slug": "temu", "base_url": "https://www.temu.com", "scraper_type": "playwright", "tier": 3, "scrape_interval_minutes": 240, "requires_api_key": False},
+    {"name": "Newegg Outlet", "slug": "newegg-outlet", "base_url": "https://www.newegg.com/Promotions/OneDealPerDay/Index.aspx", "scraper_type": "playwright", "tier": 3, "scrape_interval_minutes": 60, "requires_api_key": False},
     {"name": "Keepa", "slug": "keepa", "base_url": "https://keepa.com", "scraper_type": "api", "tier": 3, "scrape_interval_minutes": 60, "requires_api_key": True, "api_key_service": "keepa"},
     {"name": "Rainforest API", "slug": "rainforest", "base_url": "https://www.rainforestapi.com", "scraper_type": "api", "tier": 3, "scrape_interval_minutes": 60, "requires_api_key": True, "api_key_service": "rainforest"},
     {"name": "Google Shopping", "slug": "google-shopping", "base_url": "https://shopping.google.com", "scraper_type": "playwright", "tier": 3, "scrape_interval_minutes": 240, "requires_api_key": False},
@@ -303,13 +367,16 @@ API_DIRECTORY = [
 
 
 async def seed_retailers(db: AsyncSession) -> None:
-    result = await db.execute(select(Retailer).limit(1))
-    if result.scalars().first() is not None:
+    """Insert any retailers not already in the database (safe to run repeatedly)."""
+    result = await db.execute(select(Retailer.slug))
+    existing_slugs = {row[0] for row in result.all()}
+
+    new_retailers = [r for r in RETAILERS if r["slug"] not in existing_slugs]
+    if not new_retailers:
         return
 
-    logger.info("Seeding %d retailers...", len(RETAILERS))
-    for data in RETAILERS:
-        retailer = Retailer(**data)
-        db.add(retailer)
+    logger.info("Seeding %d new retailers...", len(new_retailers))
+    for data in new_retailers:
+        db.add(Retailer(**data))
     await db.commit()
-    logger.info("Retailers seeded successfully")
+    logger.info("Seeded %d retailers (total catalog: %d)", len(new_retailers), len(RETAILERS))

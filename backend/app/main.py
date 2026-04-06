@@ -27,12 +27,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(sse_router, prefix="/api")
 app.include_router(deals_router, prefix="/api")
 app.include_router(products_router, prefix="/api")
 app.include_router(retailers_router, prefix="/api")
 app.include_router(api_keys_router, prefix="/api")
 app.include_router(coupons_router, prefix="/api")
-app.include_router(sse_router, prefix="/api")
 app.include_router(scrape_jobs_router, prefix="/api")
 
 
@@ -47,6 +47,21 @@ async def startup():
         await seed_retailers(db)
 
     logger.info("DealRadar API started")
+
+    # Kick off initial scan in background — fires registered, key-free scrapers immediately
+    import asyncio
+    asyncio.create_task(_initial_scan())
+
+
+async def _initial_scan():
+    import asyncio
+    await asyncio.sleep(5)  # Let workers finish starting
+    try:
+        from app.tasks.scrape_tasks import trigger_initial_scan
+        trigger_initial_scan.delay()
+        logger.info("Initial scan triggered")
+    except Exception as e:
+        logger.warning("Could not trigger initial scan: %s", e)
 
 
 @app.get("/api/health")
