@@ -1,11 +1,11 @@
-# DealRadar
+# Dealio (DealRadar)
 
-Real-time deal tracking application that monitors 30+ retailers for price drops (50%+), price errors, coupon stacking, delivery app glitches, and clearance items. Streams deals live to a dark-mode dashboard via Server-Sent Events.
+Full-stack, real-time deal tracking application that monitors 96 retailers for steep price drops (50%+), pricing errors, coupon stacking, delivery app glitches, and clearance items. Streams deals live to a dark-mode React dashboard via Server-Sent Events (SSE).
 
 ## Features
 
 - **Live Deal Feed** — SSE-powered real-time stream showing deals the instant they're discovered
-- **34 Retailer Sources** — Best Buy, Target, Walmart, Amazon, Newegg, DoorDash, and 28 more across 3 tiers
+- **96 Seeded Retailer Sources** — Best Buy, Target, Walmart, Amazon, Newegg, DoorDash, and 90 more across 3 scraping tiers
 - **Price Error Detection** — Catches $0.09 coffee glitches, 90%+ sudden drops, and pricing mistakes on every price update
 - **Amazon Coupon Detection** — Scrapes coupon checkbox elements, combines with promo codes for true final price
 - **DoorDash Glitch Monitoring** — Watches delivery apps for items priced at fractions of retail
@@ -44,7 +44,7 @@ docker compose up --build
 # API docs: http://localhost:8000/docs
 ```
 
-The app immediately seeds 34 retailers and starts scanning Tier 1 sources. Deals appear in the live feed within minutes.
+The app immediately seeds 96 retailers and starts scanning Tier 1 sources. Deals appear in the live feed within minutes.
 
 ## Architecture
 
@@ -132,7 +132,7 @@ Priority keys to add:
 
 ## Database Schema
 
-- **retailers** — 34 seeded sources with tier, scrape interval, status
+- **retailers** — 96 seeded sources with tier, scrape interval, status
 - **products** — Tracked items with prices, coupon codes, true final price
 - **price_history** — Every price observation for historical analysis
 - **deals** — Active deals with scores, types, coupon codes
